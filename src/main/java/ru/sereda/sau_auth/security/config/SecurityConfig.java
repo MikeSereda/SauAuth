@@ -30,6 +30,7 @@ public class SecurityConfig {
                 .csrf().disable()
                 .authorizeHttpRequests()
                 .requestMatchers("/api/v1/auth/**").permitAll()
+                .requestMatchers("/api/v1/auth/set_roles").hasAuthority("ADMIN")
                 .requestMatchers("/api/v1/secured/hello").hasAuthority("OBSERVER")
                 .requestMatchers("/api/v1/secured/hello_operator").hasAnyAuthority("OPERATOR", "ADMIN")
                 .requestMatchers("/api/v1/secured/hello_admin").hasAuthority("ADMIN")

@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.sereda.sau_auth.security.web.AuthenticationRequest;
 import ru.sereda.sau_auth.security.web.AuthenticationResponse;
+import ru.sereda.sau_auth.security.web.DTO.UserDTO;
 import ru.sereda.sau_auth.security.web.RegisterRequest;
 import ru.sereda.sau_auth.service.AuthenticationService;
 
@@ -30,5 +31,11 @@ public class AuthController {
             @RequestBody AuthenticationRequest request
     ){
         return ResponseEntity.ok(authenticationService.authenticate(request));
+    }
+
+    @PostMapping("/set_roles")
+    public ResponseEntity<AuthenticationResponse> setRoles(
+            @RequestBody UserDTO userDTO){
+        return ResponseEntity.ok(authenticationService.updateRoles(userDTO));
     }
 }

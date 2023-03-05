@@ -6,11 +6,11 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import ru.sereda.sau_auth.repository.UserRepository;
-import ru.sereda.sau_auth.security.Role;
 import ru.sereda.sau_auth.security.User;
 import ru.sereda.sau_auth.security.config.JwtService;
 import ru.sereda.sau_auth.security.web.AuthenticationRequest;
 import ru.sereda.sau_auth.security.web.AuthenticationResponse;
+import ru.sereda.sau_auth.security.web.DTO.UserDTO;
 import ru.sereda.sau_auth.security.web.RegisterRequest;
 
 import java.util.HashMap;
@@ -31,13 +31,6 @@ public class AuthenticationService {
 
     public AuthenticationResponse register(RegisterRequest request) {
         User user = new User(request.getLogin(), passwordEncoder.encode(request.getPassword()));
-        if (user.getLogin().equals("operator")){
-            user.addRole(Role.OPERATOR);
-        } else if (user.getLogin().equals("admin")) {
-            user.addRole(Role.OPERATOR);
-            user.addRole(Role.ADMIN);
-        }
-        user.addRole(Role.OBSERVER);
         userRepository.save(user);
         Map<String, Object> claims = new HashMap<>();
         claims.put("roles",user.getRoles());
@@ -52,6 +45,16 @@ public class AuthenticationService {
                 )
         );
         User user = userRepository.findByLogin(request.getLogin()).orElseThrow();
+        Map<String, Object> claims = new HashMap<>();
+        claims.put("roles",user.getRoles());
+        String token = jwtService.generateToken(claims,user);
+        return new AuthenticationResponse(token);
+    }
+
+    public AuthenticationResponse updateRoles(UserDTO userDTO) {
+        User user = userRepository.findByLogin(userDTO.getLogin()).orElseThrow();
+        user.setRoles(userDTO.getRoles());
+        userRepository.save(user);
         Map<String, Object> claims = new HashMap<>();
         claims.put("roles",user.getRoles());
         String token = jwtService.generateToken(claims,user);

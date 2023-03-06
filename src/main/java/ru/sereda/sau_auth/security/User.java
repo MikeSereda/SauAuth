@@ -1,8 +1,6 @@
 package ru.sereda.sau_auth.security;
 
 import jakarta.persistence.*;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchProfile;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -22,7 +20,7 @@ public class User implements UserDetails {
     private String password;
 
     @ElementCollection(targetClass=Role.class, fetch = FetchType.EAGER)
-    @Enumerated(EnumType.STRING) // Possibly optional (I'm not sure) but defaults to ORDINAL.
+    @Enumerated(EnumType.STRING)
     @CollectionTable(name="user_roles")
     @Column(name="role")
     private List<Role> roles = new ArrayList<>();

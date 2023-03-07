@@ -29,6 +29,7 @@ public class SecurityConfig {
         httpSecurity
                 .csrf().disable()
                 .authorizeHttpRequests()
+                .requestMatchers("/**").permitAll()
                 .requestMatchers("/api/v1/auth/**").permitAll()
                 .requestMatchers("/api/v1/auth/set_roles").hasAuthority("ADMIN")
                 .requestMatchers("/api/v1/secured/hello").hasAuthority("OBSERVER")

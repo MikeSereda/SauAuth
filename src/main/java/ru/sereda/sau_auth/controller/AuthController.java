@@ -1,5 +1,8 @@
 package ru.sereda.sau_auth.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,14 +17,18 @@ import ru.sereda.sau_auth.service.AuthenticationService;
 
 @RestController
 @RequestMapping("/api/v1/auth")
+@Tag(name = "Контроллер аутентификации", description = "Контроллер для регистрации и аутентификации пользователей")
 public class AuthController {
 
     @Autowired
     AuthenticationService authenticationService;
 
     @PostMapping("/register")
+    @Operation(summary = "Зарегистрировать пользователя")
     public ResponseEntity<AuthenticationResponse> register(
-        @RequestBody RegisterRequest request
+            @Parameter (description = "Пара значений login и password")
+            @RequestBody
+            RegisterRequest request
     ){
         return ResponseEntity.ok(authenticationService.register(request));
     }

@@ -1,6 +1,8 @@
 server:
-  port: 7001
+  port: 0
 spring:
+  application:
+    name: SauAuth
   datasource:
     driver-class-name: org.postgresql.Driver
     url: jdbc:postgresql://${db_hostname:localhost}:${db_port:5432}/${db_name:sau_rest_2023}
@@ -18,3 +20,7 @@ spring:
 db:
   user:
     default: ${spring.datasource.username}
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:7003/eureka

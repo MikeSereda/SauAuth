@@ -3,7 +3,7 @@ server:
   forward-headers-strategy: framework
 spring:
   application:
-    name: SauAuth
+    name: sauauth
   datasource:
     driver-class-name: org.postgresql.Driver
     url: jdbc:postgresql://${db_hostname:localhost}:${db_port:5432}/${db_name:sau_rest_2023}

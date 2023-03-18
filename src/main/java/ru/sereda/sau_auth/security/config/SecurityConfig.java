@@ -28,9 +28,11 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception{
         httpSecurity
                 .csrf().disable()
+                .cors().disable()
                 .authorizeHttpRequests()
                 .requestMatchers("/**").permitAll()
                 .requestMatchers("/api/v1/auth/**").permitAll()
+                .requestMatchers("/api/v1/permissions/permissions").authenticated()
                 .requestMatchers("/api/v1/auth/set_roles").hasAuthority("ADMIN")
                 .requestMatchers("/api/v1/secured/hello").hasAuthority("OBSERVER")
                 .requestMatchers("/api/v1/secured/hello_operator").hasAnyAuthority("OPERATOR", "ADMIN")

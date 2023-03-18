@@ -1,21 +1,31 @@
 package ru.sereda.sau_auth.security.web;
 
+import ru.sereda.sau_auth.entities.Permission;
+import ru.sereda.sau_auth.security.Role;
+
+import java.util.List;
+
 public class AuthenticationResponse {
 
-    private String token;
+    private final String token;
+    private final List<Role> roles;
+    private final Permission permission;
 
-    public AuthenticationResponse() {
+    public List<Role> getRoles() {
+        return roles;
     }
 
-    public AuthenticationResponse(String token) {
+    public AuthenticationResponse(String token, List<Role> roles, Permission permission) {
         this.token = token;
+        this.roles = roles;
+        this.permission = permission;
     }
 
     public String getToken() {
         return token;
     }
 
-    public void setToken(String token) {
-        this.token = token;
+    public Permission getPermission() {
+        return permission;
     }
 }

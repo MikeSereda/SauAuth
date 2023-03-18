@@ -24,6 +24,8 @@ public class AuthenticationService {
     @Autowired
     PasswordEncoder passwordEncoder;
     @Autowired
+    PermissionService permissionService;
+    @Autowired
     JwtService jwtService;
 
     @Autowired
@@ -35,7 +37,7 @@ public class AuthenticationService {
         Map<String, Object> claims = new HashMap<>();
         claims.put("roles",user.getRoles());
         String token = jwtService.generateToken(claims,user);
-        return new AuthenticationResponse(token);
+        return new AuthenticationResponse(token, user.getRoles(), permissionService.getPermission(user.getRoles()));
     }
 
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
@@ -48,7 +50,7 @@ public class AuthenticationService {
         Map<String, Object> claims = new HashMap<>();
         claims.put("roles",user.getRoles());
         String token = jwtService.generateToken(claims,user);
-        return new AuthenticationResponse(token);
+        return new AuthenticationResponse(token, user.getRoles(), permissionService.getPermission(user.getRoles()));
     }
 
     public AuthenticationResponse updateRoles(UserDTO userDTO) {
@@ -58,6 +60,6 @@ public class AuthenticationService {
         Map<String, Object> claims = new HashMap<>();
         claims.put("roles",user.getRoles());
         String token = jwtService.generateToken(claims,user);
-        return new AuthenticationResponse(token);
+        return new AuthenticationResponse(token, user.getRoles(), permissionService.getPermission(user.getRoles()));
     }
 }
